@@ -1,12 +1,13 @@
 # simple-alert-dialog
-```allprojects {
+```gradle
+allprojects {  
 	repositories {
 		...
 		maven { url "https://jitpack.io" }
 	}
-}```
+}
 
-```dependencies {
+dependencies {
 	compile 'com.github.keyhansoft:easy-fragment-dialog:-SNAPSHOT'
-}```
+}
  
