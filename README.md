@@ -9,3 +9,4 @@ allprojects {
 dependencies {
 	compile 'com.github.keyhansoft:easy-fragment-dialog:-SNAPSHOT'
 }
+ 
