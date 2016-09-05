@@ -1,4 +1,4 @@
-# simple-alert-dialog
+# easy-fragment-dialog
 ```gradle
 allprojects {  
 	repositories {
