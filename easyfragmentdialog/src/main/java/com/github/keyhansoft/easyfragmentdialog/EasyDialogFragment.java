@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -74,15 +75,21 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
+        public Builder setSingleChoiceItems(int resource)
+        {
+            this.singleChoiceItems = appCompatActivity.getResources().getStringArray(resource);
+            return this;
+        }
+
         public Builder setTitle(String title)
         {
             this.title = title;
             return this;
         }
-
-        public String getLogTag()
+        public Builder setTitle(int resource)
         {
-            return logTag;
+            this.title = appCompatActivity.getResources().getString(resource);
+            return this;
         }
 
         public Builder setLogTag(String logTag)
@@ -131,9 +138,22 @@ public class EasyDialogFragment extends DialogFragment
         }
 
 
+        public Builder setMessage(int resource)
+        {
+            this.message = appCompatActivity.getResources().getString(resource);
+            return this;
+        }
+
+
         public Builder setPositiveText(String positiveText)
         {
             this.positiveText = positiveText;
+            return this;
+        }
+
+        public Builder setPositiveText(int resource)
+        {
+            this.positiveText = appCompatActivity.getResources().getString(resource);
             return this;
         }
 
@@ -144,6 +164,12 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
+        public Builder setNegativeText(int resource)
+        {
+            this.negativeText = appCompatActivity.getResources().getString(resource);
+            return this;
+        }
+
 
         public Builder setNeutralTextText(String neutralText)
         {
@@ -151,10 +177,23 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
+        public Builder setNeutralTextText(int resource)
+        {
+            this.neutralText = appCompatActivity.getResources().getString(resource);
+            return this;
+        }
+
 
         public Builder setItems(String[] items)
         {
             this.items = items;
+            return this;
+        }
+
+
+        public Builder setItems(int resource)
+        {
+            this.items = appCompatActivity.getResources().getStringArray(resource);
             return this;
         }
 
@@ -169,6 +208,12 @@ public class EasyDialogFragment extends DialogFragment
         public Builder setIcon(Drawable icon)
         {
             this.icon = icon;
+            return this;
+        }
+
+        public Builder setIcon(int icon)
+        {
+            this.icon = ContextCompat.getDrawable(appCompatActivity, icon);
             return this;
         }
 
@@ -188,7 +233,7 @@ public class EasyDialogFragment extends DialogFragment
         }
         public void show()
         {
-            EasyDialogFragment.newInstance(toBundle()).show(appCompatActivity.getSupportFragmentManager(), getLogTag());
+            EasyDialogFragment.newInstance(toBundle()).show(appCompatActivity.getSupportFragmentManager(), logTag);
 
         }
 
