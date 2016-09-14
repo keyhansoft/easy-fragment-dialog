@@ -16,24 +16,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
-
 public class EasyDialogFragment extends DialogFragment
 {
-
 
 
     public interface SingleButtonCallback
     {
         void onClick(DialogInterface dialog);
     }
+
     public interface ListCallback
     {
         void onClick(DialogInterface dialog, int which);
     }
+
     public interface ListCallbackSingleChoice
     {
         void onClick(DialogInterface dialog, int which);
     }
+
     private static EasyDialogFragment newInstance(Bundle args)
     {
         EasyDialogFragment alertDialogFragment = new EasyDialogFragment();
@@ -71,7 +72,6 @@ public class EasyDialogFragment extends DialogFragment
         }
 
 
-
         public Builder(AppCompatActivity appCompatActivity)
         {
             this.appCompatActivity = appCompatActivity;
@@ -94,6 +94,7 @@ public class EasyDialogFragment extends DialogFragment
             this.title = title;
             return this;
         }
+
         public Builder setTitle(int resource)
         {
             this.title = appCompatActivity.getResources().getString(resource);
@@ -111,16 +112,19 @@ public class EasyDialogFragment extends DialogFragment
             onPositive = singleButtonCallback;
             return this;
         }
+
         public Builder onNeutral(SingleButtonCallback singleButtonCallback)
         {
             onNeutral = singleButtonCallback;
             return this;
         }
+
         public Builder onNegative(SingleButtonCallback singleButtonCallback)
         {
             onNegative = singleButtonCallback;
             return this;
         }
+
         public Builder onAny(SingleButtonCallback singleButtonCallback)
         {
             onAny = singleButtonCallback;
@@ -132,6 +136,7 @@ public class EasyDialogFragment extends DialogFragment
             itemsCallback = listCallback;
             return this;
         }
+
         public Builder itemsCallbackSingleChoice(int selected, ListCallbackSingleChoice listCallbackSingleChoice)
         {
             itemsCallbackSingleChoice = listCallbackSingleChoice;
@@ -239,6 +244,7 @@ public class EasyDialogFragment extends DialogFragment
 
             return args;
         }
+
         public void show()
         {
             EasyDialogFragment.newInstance(toBundle()).show(appCompatActivity.getSupportFragmentManager(), logTag);
@@ -257,7 +263,6 @@ public class EasyDialogFragment extends DialogFragment
 
         }
     }
-
 
 
     @Nullable
@@ -289,7 +294,7 @@ public class EasyDialogFragment extends DialogFragment
         if (dialogBuilder.message != null && !dialogBuilder.message.isEmpty())
         {
             builder.setMessage(dialogBuilder.message);
-            if(dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
+            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
             {
                 builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
                 {
@@ -307,7 +312,7 @@ public class EasyDialogFragment extends DialogFragment
                     }
                 });
             }
-            if(dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
+            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
             {
                 builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
                 {
@@ -324,7 +329,7 @@ public class EasyDialogFragment extends DialogFragment
                     }
                 });
             }
-            if(dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
+            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
             {
                 builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
                 {
@@ -344,7 +349,7 @@ public class EasyDialogFragment extends DialogFragment
         }
 
 
-        if(dialogBuilder.singleChoiceItems != null)
+        if (dialogBuilder.singleChoiceItems != null)
         {
             builder.setSingleChoiceItems(dialogBuilder.singleChoiceItems, dialogBuilder.selected, new DialogInterface.OnClickListener()
             {
@@ -356,7 +361,7 @@ public class EasyDialogFragment extends DialogFragment
 
             });
         }
-        if(dialogBuilder.items != null)
+        if (dialogBuilder.items != null)
         {
             builder.setItems(dialogBuilder.items, new DialogInterface.OnClickListener()
             {
@@ -369,10 +374,10 @@ public class EasyDialogFragment extends DialogFragment
             });
         }
 
-        if(dialogBuilder.customView != null)
+        if (dialogBuilder.customView != null)
         {
             builder.setView(dialogBuilder.customView);
-            if(dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
+            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
             {
                 builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
                 {
@@ -389,7 +394,7 @@ public class EasyDialogFragment extends DialogFragment
                     }
                 });
             }
-            if(dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
+            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
             {
                 builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
                 {
@@ -406,7 +411,7 @@ public class EasyDialogFragment extends DialogFragment
                     }
                 });
             }
-            if(dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
+            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
             {
                 builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
                 {
@@ -427,11 +432,22 @@ public class EasyDialogFragment extends DialogFragment
 
 
         AlertDialog dialog = builder.create();
-        if(dialogBuilder.buttonColor != -1)
+        if (dialogBuilder.buttonColor != -1)
         {
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
-            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+            if (dialog.getButton(AlertDialog.BUTTON_NEGATIVE) != null)
+            {
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
+            }
+
+            if (dialog.getButton(AlertDialog.BUTTON_POSITIVE) != null)
+            {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+            }
+
+            if (dialog.getButton(AlertDialog.BUTTON_NEUTRAL) != null)
+            {
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+            }
         }
         return dialog;
     }
