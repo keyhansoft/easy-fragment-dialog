@@ -1,6 +1,7 @@
 package com.github.keyhansoft.sample;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity
                 .setCancelable(true)
                 .setMessage("test")
                 .setPositiveText("test2")
+                .setButtonColor(Color.RED)
                 .onPositive(new EasyDialogFragment.SingleButtonCallback()
                 {
                     @Override

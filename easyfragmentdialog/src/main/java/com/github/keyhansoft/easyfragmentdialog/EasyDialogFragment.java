@@ -2,6 +2,7 @@ package com.github.keyhansoft.easyfragmentdialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -432,24 +433,38 @@ public class EasyDialogFragment extends DialogFragment
 
 
         AlertDialog dialog = builder.create();
-        if (dialogBuilder.buttonColor != -1)
+        dialog.setOnShowListener(new DialogInterface.OnShowListener()
         {
-            if (dialog.getButton(AlertDialog.BUTTON_NEGATIVE) != null)
+            @Override
+            public void onShow(DialogInterface dialogInterface)
             {
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
-            }
+                try
+                {
+                    if (dialogBuilder.buttonColor != -1)
+                    {
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+                        }
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
+                        }
 
-            if (dialog.getButton(AlertDialog.BUTTON_POSITIVE) != null)
-            {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-
-            if (dialog.getButton(AlertDialog.BUTTON_NEUTRAL) != null)
-            {
-                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
-            }
-        }
+        });
         return dialog;
     }
+
 
 }
