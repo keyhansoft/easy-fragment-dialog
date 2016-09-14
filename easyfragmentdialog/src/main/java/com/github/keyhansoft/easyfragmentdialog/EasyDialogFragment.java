@@ -62,6 +62,14 @@ public class EasyDialogFragment extends DialogFragment
         protected String logTag = this.getClass().getSimpleName();
         protected String title;
         protected AppCompatActivity appCompatActivity;
+        protected int buttonColor = -1;
+
+        public Builder setButtonColor(int buttonColor)
+        {
+            this.buttonColor = buttonColor;
+            return this;
+        }
+
 
 
         public Builder(AppCompatActivity appCompatActivity)
@@ -419,6 +427,12 @@ public class EasyDialogFragment extends DialogFragment
 
 
         AlertDialog dialog = builder.create();
+        if(dialogBuilder.buttonColor != -1)
+        {
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+        }
         return dialog;
     }
 
