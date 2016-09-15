@@ -10,8 +10,10 @@ allprojects {
 dependencies {
 	compile 'com.github.keyhansoft:easy-fragment-dialog:-SNAPSHOT'
 }
+```
 
-new EasyDialogFragment.Builder(AdShowActivity.this)
+```
+new EasyDialogFragment.Builder(this)
         .setCustomView(v)
         .setPositiveText(R.string.ok)
         .setNegativeText(R.string.cancel)
