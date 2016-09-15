@@ -3,7 +3,9 @@ package com.github.keyhansoft.easyfragmentdialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class EasyDialogFragment extends DialogFragment
@@ -65,6 +68,13 @@ public class EasyDialogFragment extends DialogFragment
         protected String title;
         protected AppCompatActivity appCompatActivity;
         protected int buttonColor = -1;
+        protected Typeface buttonsTypeface;
+
+
+        public Builder(AppCompatActivity appCompatActivity)
+        {
+            this.appCompatActivity = appCompatActivity;
+        }
 
         public Builder setButtonColor(int buttonColor)
         {
@@ -72,11 +82,12 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
-
-        public Builder(AppCompatActivity appCompatActivity)
+        public Builder setButtonsTypeFace(Typeface typeFace)
         {
-            this.appCompatActivity = appCompatActivity;
+            this.buttonsTypeface = typeFace;
+            return this;
         }
+
 
         public Builder setSingleChoiceItems(String[] singleChoiceItems)
         {
@@ -445,17 +456,33 @@ public class EasyDialogFragment extends DialogFragment
                         if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE) != null)
                         {
                             ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+                            if(dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
                         }
                         if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE) != null)
                         {
                             ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
+                            if(dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
                         }
 
                         if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL) != null)
                         {
                             ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+                            if(dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
                         }
                     }
+
+                    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
+
+
                 }
                 catch (Exception e)
                 {
