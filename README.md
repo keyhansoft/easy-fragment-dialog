@@ -14,23 +14,35 @@ dependencies {
 
 ```
 new EasyDialogFragment.Builder(this)
-        .setCustomView(v)
-        .setPositiveText(R.string.ok)
-        .setNegativeText(R.string.cancel)
-        .setButtonColor(ContextCompat.getColor(AdShowActivity.this, R.color.primary))
-        .onPositive(new EasyDialogFragment.SingleButtonCallback()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface)
-            {
-
-            }
-        })
-        .onNegative(new EasyDialogFragment.SingleButtonCallback()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface)
-            {
-
-            }
-        }).show(); 
+	.setCustomView(v)
+	.setButtonsTypeFace(FontUtils.getTypeFace())
+	.setPositiveText(R.string.ok)
+	.setNegativeText(R.string.cancel)
+	.setButtonColor(ContextCompat.getColor(this, R.color.primary))
+	.onPositive(new EasyDialogFragment.SingleButtonCallback()
+	{
+	    @Override
+	    public void onClick(DialogInterface dialogInterface)
+	    {
+	        Snackbar.make(findViewById(android.R.id.content), R.string.message, Snackbar.LENGTH_LONG)
+	                .setAction(R.string.ok, new View.OnClickListener()
+	                {
+	                    @Override
+	                    public void onClick(View view)
+	                    {
+	
+	                    }
+	                })
+	                .setActionTextColor(getResources().getColor(R.color.secondary))
+	                .setDuration(2000)
+	                .show();
+	    }
+	})
+	.onNegative(new EasyDialogFragment.SingleButtonCallback()
+	{
+	    @Override
+	    public void onClick(DialogInterface dialogInterface)
+	    {
+	
+	    }
+	}).show();
