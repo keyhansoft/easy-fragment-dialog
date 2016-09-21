@@ -16,7 +16,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -24,10 +26,299 @@ public class EasyDialogFragment extends DialogFragment
 {
 
 
+    private static EasyDialogFragment newInstance(Bundle args)
+    {
+        EasyDialogFragment alertDialogFragment = new EasyDialogFragment();
+        alertDialogFragment.setArguments(args);
+        return alertDialogFragment;
+    }
+
+    @Nullable
+    @Override
+    public View getView()
+    {
+        return super.getView();
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+
+        final EasyDialogFragment.Builder dialogBuilder = getArguments().getParcelable("builder");
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+
+        builder.setCancelable(dialogBuilder.cancelable);
+        if (dialogBuilder.icon != null)
+        {
+            builder.setIcon(dialogBuilder.icon);
+        }
+        if (dialogBuilder.title != null)
+        {
+            builder.setTitle(dialogBuilder.title);
+
+        }
+
+
+        if (dialogBuilder.message != null && !dialogBuilder.message.isEmpty())
+        {
+            builder.setMessage(dialogBuilder.message);
+            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
+            {
+                builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onPositive != null)
+                        {
+                            dialogBuilder.onPositive.onClick(dialog);
+                        }
+
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
+            {
+                builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onNegative != null)
+                        {
+                            dialogBuilder.onNegative.onClick(dialog);
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
+            {
+                builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onNeutral != null)
+                        {
+                            dialogBuilder.onNegative.onClick(dialog);
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        if (dialogBuilder.singleChoiceItems != null)
+        {
+            builder.setSingleChoiceItems(dialogBuilder.singleChoiceItems, dialogBuilder.selected, new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialogBuilder.itemsCallbackSingleChoice.onClick(dialog, which);
+                }
+
+            });
+        }
+        if (dialogBuilder.items != null)
+        {
+            builder.setItems(dialogBuilder.items, new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialogBuilder.itemsCallback.onClick(dialog, which);
+                }
+
+            });
+        }
+
+        if (dialogBuilder.customView != null)
+        {
+            builder.setView(dialogBuilder.customView);
+            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
+            {
+                builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onPositive != null)
+                        {
+                            dialogBuilder.onPositive.onClick(dialog);
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
+            {
+                builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onNegative != null)
+                        {
+                            dialogBuilder.onNegative.onClick(dialog);
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
+            {
+                builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        if (dialogBuilder.onNeutral != null)
+                        {
+                            dialogBuilder.onNegative.onClick(dialog);
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(dialog);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener()
+        {
+            @Override
+            public void onShow(DialogInterface dialogInterface)
+            {
+                try
+                {
+                    if (dialogBuilder.buttonColor != -1)
+                    {
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
+                            if (dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
+                        }
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
+                            if (dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
+                        }
+                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL) != null)
+                        {
+                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
+                            if (dialogBuilder.buttonsTypeface != null)
+                            {
+                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
+                            }
+                        }
+                    }
+
+                    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
+
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return dialog;
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        final EasyDialogFragment.Builder dialogBuilder = getArguments().getParcelable("builder");
+        if ((getDialog()) != null && dialogBuilder != null && !dialogBuilder.autoDismiss)
+        {
+            if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE) != null)
+            {
+                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (dialogBuilder.onPositive != null)
+                        {
+                            dialogBuilder.onPositive.onClick(getDialog());
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(getDialog());
+                        }
+                    }
+                });
+            }
+            if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE) != null)
+            {
+                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (dialogBuilder.onNegative != null)
+                        {
+                            dialogBuilder.onNegative.onClick(getDialog());
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(getDialog());
+                        }
+                    }
+                });
+            }
+            if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL) != null)
+            {
+                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (dialogBuilder.onNeutral != null)
+                        {
+                            dialogBuilder.onNeutral.onClick(getDialog());
+                        }
+                        if (dialogBuilder.onAny != null)
+                        {
+                            dialogBuilder.onAny.onClick(getDialog());
+                        }
+                    }
+                });
+            }
+        }
+    }
+
     public interface SingleButtonCallback
     {
         void onClick(DialogInterface dialog);
     }
+
 
     public interface ListCallback
     {
@@ -39,15 +330,9 @@ public class EasyDialogFragment extends DialogFragment
         void onClick(DialogInterface dialog, int which);
     }
 
-    private static EasyDialogFragment newInstance(Bundle args)
-    {
-        EasyDialogFragment alertDialogFragment = new EasyDialogFragment();
-        alertDialogFragment.setArguments(args);
-        return alertDialogFragment;
-    }
-
     public static class Builder implements Parcelable
     {
+        protected boolean autoDismiss = true;
         protected String message;
         protected String positiveText;
         protected String negativeText;
@@ -82,12 +367,17 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
+        public Builder setAutoDismiss(boolean autoDismiss)
+        {
+            this.autoDismiss = autoDismiss;
+            return this;
+        }
+
         public Builder setButtonsTypeFace(Typeface typeFace)
         {
             this.buttonsTypeface = typeFace;
             return this;
         }
-
 
         public Builder setSingleChoiceItems(String[] singleChoiceItems)
         {
@@ -275,223 +565,4 @@ public class EasyDialogFragment extends DialogFragment
 
         }
     }
-
-
-    @Nullable
-    @Override
-    public View getView()
-    {
-        return super.getView();
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
-
-        final EasyDialogFragment.Builder dialogBuilder = getArguments().getParcelable("builder");
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-
-        builder.setCancelable(dialogBuilder.cancelable);
-        if (dialogBuilder.icon != null)
-        {
-            builder.setIcon(dialogBuilder.icon);
-        }
-        if (dialogBuilder.title != null)
-        {
-            builder.setTitle(dialogBuilder.title);
-        }
-
-
-        if (dialogBuilder.message != null && !dialogBuilder.message.isEmpty())
-        {
-            builder.setMessage(dialogBuilder.message);
-            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
-            {
-                builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onPositive != null)
-                        {
-                            dialogBuilder.onPositive.onClick(dialog);
-                        }
-
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
-            {
-                builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onNegative != null)
-                        {
-                            dialogBuilder.onNegative.onClick(dialog);
-                        }
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
-            {
-                builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onNeutral != null)
-                        {
-                            dialogBuilder.onNegative.onClick(dialog);
-                        }
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-        }
-
-
-        if (dialogBuilder.singleChoiceItems != null)
-        {
-            builder.setSingleChoiceItems(dialogBuilder.singleChoiceItems, dialogBuilder.selected, new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    dialogBuilder.itemsCallbackSingleChoice.onClick(dialog, which);
-                }
-
-            });
-        }
-        if (dialogBuilder.items != null)
-        {
-            builder.setItems(dialogBuilder.items, new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    dialogBuilder.itemsCallback.onClick(dialog, which);
-                }
-
-            });
-        }
-
-        if (dialogBuilder.customView != null)
-        {
-            builder.setView(dialogBuilder.customView);
-            if (dialogBuilder.positiveText != null && !dialogBuilder.positiveText.isEmpty())
-            {
-                builder.setPositiveButton(dialogBuilder.positiveText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onPositive != null)
-                        {
-                            dialogBuilder.onPositive.onClick(dialog);
-                        }
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-            if (dialogBuilder.negativeText != null && !dialogBuilder.negativeText.isEmpty())
-            {
-                builder.setNegativeButton(dialogBuilder.negativeText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onNegative != null)
-                        {
-                            dialogBuilder.onNegative.onClick(dialog);
-                        }
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-            if (dialogBuilder.neutralText != null && !dialogBuilder.neutralText.isEmpty())
-            {
-                builder.setNeutralButton(dialogBuilder.neutralText, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        if (dialogBuilder.onNeutral != null)
-                        {
-                            dialogBuilder.onNegative.onClick(dialog);
-                        }
-                        if (dialogBuilder.onAny != null)
-                        {
-                            dialogBuilder.onAny.onClick(dialog);
-                        }
-                    }
-                });
-            }
-        }
-
-
-        AlertDialog dialog = builder.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener()
-        {
-            @Override
-            public void onShow(DialogInterface dialogInterface)
-            {
-                try
-                {
-                    if (dialogBuilder.buttonColor != -1)
-                    {
-                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE) != null)
-                        {
-                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(dialogBuilder.buttonColor);
-                            if(dialogBuilder.buttonsTypeface != null)
-                            {
-                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTypeface(dialogBuilder.buttonsTypeface);
-                            }
-                        }
-                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE) != null)
-                        {
-                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(dialogBuilder.buttonColor);
-                            if(dialogBuilder.buttonsTypeface != null)
-                            {
-                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTypeface(dialogBuilder.buttonsTypeface);
-                            }
-                        }
-
-                        if (((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL) != null)
-                        {
-                            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(dialogBuilder.buttonColor);
-                            if(dialogBuilder.buttonsTypeface != null)
-                            {
-                                ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
-                            }
-                        }
-                    }
-
-                    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL).setTypeface(dialogBuilder.buttonsTypeface);
-
-
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return dialog;
-    }
-
-
 }
