@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity
         new EasyDialogFragment.Builder(this)
                 .setTitle("TEST")
                 .setCancelable(true)
+                .setAutoDismiss(false)
                 .setMessage("test")
                 .setPositiveText("test2")
                 .setButtonColor(Color.RED)
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog)
                     {
-
+                        dialog.dismiss();
                     }
                 })
                 .show();
