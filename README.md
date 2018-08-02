@@ -8,7 +8,7 @@ allprojects {
 }
 
 dependencies {
-	compile 'com.github.keyhansoft:easy-fragment-dialog:-SNAPSHOT'
+	implementation 'com.github.keyhansoft:easy-fragment-dialog:2.0'
 }
 ```
 
