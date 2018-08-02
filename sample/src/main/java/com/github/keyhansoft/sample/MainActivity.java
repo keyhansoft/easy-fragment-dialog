@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog)
                     {
-                        dialog.dismiss();
                     }
                 })
                 .show();

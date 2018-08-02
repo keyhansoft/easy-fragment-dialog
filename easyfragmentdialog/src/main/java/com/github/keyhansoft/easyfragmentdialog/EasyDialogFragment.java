@@ -2,24 +2,16 @@ package com.github.keyhansoft.easyfragmentdialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 
 public class EasyDialogFragment extends DialogFragment
@@ -33,20 +25,18 @@ public class EasyDialogFragment extends DialogFragment
         return alertDialogFragment;
     }
 
-    @Nullable
     @Override
     public View getView()
     {
         return super.getView();
     }
 
-    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
 
         final EasyDialogFragment.Builder dialogBuilder = getArguments().getParcelable("builder");
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setCancelable(dialogBuilder.cancelable);
         if (dialogBuilder.icon != null)
@@ -58,6 +48,19 @@ public class EasyDialogFragment extends DialogFragment
             builder.setTitle(dialogBuilder.title);
 
         }
+
+        builder.setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent)
+            {
+                if (i == KeyEvent.KEYCODE_BACK)
+                {
+                    getActivity().finish();
+                }
+                return false;
+            }
+        });
 
 
         if (dialogBuilder.message != null && !dialogBuilder.message.isEmpty())
@@ -106,7 +109,7 @@ public class EasyDialogFragment extends DialogFragment
                     {
                         if (dialogBuilder.onNeutral != null)
                         {
-                            dialogBuilder.onNegative.onClick(dialog);
+                            dialogBuilder.onNeutral.onClick(dialog);
                         }
                         if (dialogBuilder.onAny != null)
                         {
@@ -201,6 +204,7 @@ public class EasyDialogFragment extends DialogFragment
 
 
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setOnShowListener(new DialogInterface.OnShowListener()
         {
             @Override
@@ -332,33 +336,62 @@ public class EasyDialogFragment extends DialogFragment
 
     public static class Builder implements Parcelable
     {
-        protected boolean autoDismiss = true;
-        protected String message;
-        protected String positiveText;
-        protected String negativeText;
-        protected String neutralText;
-        protected String[] items;
-        protected String[] singleChoiceItems;
-        protected View customView;
-        protected Drawable icon;
-        protected boolean cancelable;
-        protected ListCallback itemsCallback;
-        protected ListCallbackSingleChoice itemsCallbackSingleChoice;
-        protected SingleButtonCallback onPositive;
-        protected SingleButtonCallback onNeutral;
-        protected SingleButtonCallback onNegative;
-        protected SingleButtonCallback onAny;
-        protected int selected;
-        protected String logTag = this.getClass().getSimpleName();
-        protected String title;
-        protected AppCompatActivity appCompatActivity;
-        protected int buttonColor = -1;
-        protected Typeface buttonsTypeface;
+        public static final Creator<Builder> CREATOR = new Creator<Builder>()
+        {
+            @Override
+            public Builder createFromParcel(Parcel in)
+            {
+                return new Builder(in);
+            }
 
+            @Override
+            public Builder[] newArray(int size)
+            {
+                return new Builder[size];
+            }
+        };
+        SingleButtonCallback onPositive;
+        boolean autoDismiss = true;
+        String message;
+        String positiveText;
+        String negativeText;
+        String neutralText;
+        String[] items;
+        String[] singleChoiceItems;
+        View customView;
+        Drawable icon;
+        boolean cancelable;
+        ListCallback itemsCallback;
+        ListCallbackSingleChoice itemsCallbackSingleChoice;
+        SingleButtonCallback onNeutral;
+        SingleButtonCallback onNegative;
+        SingleButtonCallback onAny;
+        int selected;
+        String logTag = this.getClass().getSimpleName();
+        String title;
+        AppCompatActivity appCompatActivity;
+        int buttonColor = -1;
+        Typeface buttonsTypeface;
 
         public Builder(AppCompatActivity appCompatActivity)
         {
             this.appCompatActivity = appCompatActivity;
+        }
+
+        protected Builder(Parcel in)
+        {
+            autoDismiss = in.readByte() != 0;
+            message = in.readString();
+            positiveText = in.readString();
+            negativeText = in.readString();
+            neutralText = in.readString();
+            items = in.createStringArray();
+            singleChoiceItems = in.createStringArray();
+            cancelable = in.readByte() != 0;
+            selected = in.readInt();
+            logTag = in.readString();
+            title = in.readString();
+            buttonColor = in.readInt();
         }
 
         public Builder setButtonColor(int buttonColor)
@@ -526,13 +559,6 @@ public class EasyDialogFragment extends DialogFragment
             return this;
         }
 
-        public Builder setIcon(int icon)
-        {
-            this.icon = ContextCompat.getDrawable(appCompatActivity, icon);
-            return this;
-        }
-
-
         public Builder setCancelable(boolean cancelable)
         {
             this.cancelable = cancelable;
@@ -562,7 +588,18 @@ public class EasyDialogFragment extends DialogFragment
         @Override
         public void writeToParcel(Parcel parcel, int i)
         {
-
+            parcel.writeByte((byte) (autoDismiss ? 1 : 0));
+            parcel.writeString(message);
+            parcel.writeString(positiveText);
+            parcel.writeString(negativeText);
+            parcel.writeString(neutralText);
+            parcel.writeStringArray(items);
+            parcel.writeStringArray(singleChoiceItems);
+            parcel.writeByte((byte) (cancelable ? 1 : 0));
+            parcel.writeInt(selected);
+            parcel.writeString(logTag);
+            parcel.writeString(title);
+            parcel.writeInt(buttonColor);
         }
     }
 }
